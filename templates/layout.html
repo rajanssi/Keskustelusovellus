@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mölinä forum - {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <div>
+        <h1>Mölinä-foorum</h1>
+        <i>Tervetuloa mölisemään</i>
+        <div class="no-class">
+            <a href="\">Kotisivu</a>
+            <a href="\login">Kirjaudu</a>
+            <a href="\register">Rekisteröidy</a>
+            <a href="\search">Hae viestejä</a>
+            <hr>
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+</body>
+
+</html>

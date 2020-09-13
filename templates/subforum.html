@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<h2>{{ forumname }}</h2>
+<div>
+    {%for thread in threads %}
+    <a href="/subforum/{{ thread[0] }}" class="Discussion-area"><h2>{{ thread[2] }}</h2></a>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}
