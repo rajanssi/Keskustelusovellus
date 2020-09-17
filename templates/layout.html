@@ -2,13 +2,22 @@
 <html>
 
 <head>
-    <title>Mölinä forum - {% block title %}{% endblock %}</title>
+    <title>Mölinälauta - {% block title %}{% endblock %}</title>
 </head>
 
 <body>
     <div>
-        <h1>Mölinä-foorum</h1>
-        <i>Tervetuloa mölisemään</i>
+        <h1>Mölinälauta</h1>
+        {% if session.user_id %}
+        <i>{{ session.user_id }}!</i>
+        <div class="no-class">
+            <a href="\">Kotisivu</a>
+            <a href="\logout">Kirjaudu ulos</a>
+            <a href="\search">Hae viestejä</a>
+            <hr>
+        </div>
+        {% else %}
+        <i>Tervetuloa mölisemään!</i>
         <div class="no-class">
             <a href="\">Kotisivu</a>
             <a href="\login">Kirjaudu</a>
@@ -16,6 +25,7 @@
             <a href="\search">Hae viestejä</a>
             <hr>
         </div>
+        {% endif %}
     </div>
     {% block content %}{% endblock %}
 </body>

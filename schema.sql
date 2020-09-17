@@ -1,11 +1,11 @@
-CREATE TABLE subforums (
+CREATE TABLE boards (
     id SERIAL PRIMARY KEY,
-    title TEXT
+    boardname TEXT
     );
 
 CREATE TABLE threads(
     id SERIAL PRIMARY KEY, 
-    subforum_id INTEGER REFERENCES subforums, 
+    board_id INTEGER REFERENCES boards, 
     title TEXT, 
     created_at TIMESTAMP
     );

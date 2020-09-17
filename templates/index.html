@@ -3,8 +3,8 @@
 {% block content %}
 <h2>Keskustelualueet</h2>
 <div>
-    {%for subforum in subforums %}
-    <a href="/subforum/{{ subforum[0] }}" class="Discussion-area"><h2>{{ subforum[1] }}</h2></a>
+    {%for board in boards %}
+    <a href="/boards/{{ board[0] }}" class="Discussion-area"><h2>{{ board[1] }}</h2></a>
     <hr>
     {% endfor %}
 </div>
