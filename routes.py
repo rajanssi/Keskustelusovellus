@@ -1,14 +1,13 @@
 from app import app
 from db import db
-import boards, users, threads
+import boards, users, threads, comments
 from flask import render_template, redirect, request, url_for
 
-message2 = 'Testi'
 
 @app.route("/")
 def index():
     list = boards.get_boards()
-    return render_template("index.html", message2=message2, boards=list)
+    return render_template("index.html", boards=list)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -47,7 +46,6 @@ def board(id):
 
 @app.route("/thread/<int:id>")
 def thread(id):
-    
     title = threads.get_threadtitle(id)
     comments = threads.get_comments(id)
     return render_template("thread.html", id=id, title=title, comments=comments)
@@ -72,4 +70,18 @@ def reply(id):
     else:
         return render_template("error.html", message="Vastauksen lähetys ei onnistunut")
 
-    
+@app.route("/edit/<int:id>", methods=["get", "post"])
+def edit_comment(id):
+    if request.method == "GET":
+        return render_template("edit-comment.html", id=id)
+    if request.method == "POST":
+        content = request.form["content"]
+        if comments.edit(content, id):
+            return redirect("/")
+        else:
+            return render_template("error.html", message="Viestin muokkaus ei onnistunut")
+
+@app.route("/remove/<int:id>")
+def remove_comment(id):
+    comments.remove(id)
+    return redirect("/")

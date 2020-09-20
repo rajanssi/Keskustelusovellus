@@ -7,7 +7,8 @@ def get_threadtitle(id):
     return result.fetchone()[0]
 
 def get_comments(id):
-    sql = "SELECT * FROM comments c WHERE c.thread_id =:id"
+    sql = "SELECT c.id, c.content, c.created_at, c.user_id, u.username FROM comments c " \
+          "LEFT JOIN Users U ON c.user_id = u.id WHERE c.thread_id=:id ORDER BY c.id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
 

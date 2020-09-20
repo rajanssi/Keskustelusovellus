@@ -4,8 +4,13 @@
 <h2>{{ title }}</h2>
 <div>
     {%for comment in comments %}
-    <p>{{comment[2]}} - Vastaajan tunnus</p>
-    <i>{{comment[3]}}</i>
+    <p>{{comment[1]}} - {{comment[4]}}</p>
+    <i>{{comment[2]}}</i>
+    
+    {% if comment[3] == session.user_id%}
+    <a href="/remove/{{comment[0]}}">Poista</a>
+    <a href="/edit/{{comment[0]}}">Muokkaa</a>
+    {% endif %}
     <hr>
     {% endfor %}
     <form action="/thread/{{id}}/reply" method="post">

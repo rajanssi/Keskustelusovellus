@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<div>
+    <form action="/edit/{{id}}" method="post">
+    Viesti: <textarea name="content" rows="3" cols="40"></textarea>
+    <input type="submit" value="Lähetä">
+    </form>
+</div>
+{% endblock %}
