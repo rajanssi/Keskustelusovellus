@@ -3,14 +3,6 @@ CREATE TABLE boards (
     boardname TEXT
     );
 
-CREATE TABLE threads(
-    id SERIAL PRIMARY KEY, 
-    board_id INTEGER REFERENCES boards, 
-    user_id INTEGER REFERENCES users,
-    title TEXT, 
-    created_at TIMESTAMP
-    );
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY, 
     username TEXT UNIQUE, 
@@ -18,6 +10,14 @@ CREATE TABLE users (
     role INTEGER
     );
 
+CREATE TABLE threads(
+    id SERIAL PRIMARY KEY, 
+    board_id INTEGER REFERENCES boards, 
+    user_id INTEGER REFERENCES users,
+    title TEXT, 
+    created_at TIMESTAMP
+    );
+    
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY, 
     user_id INTEGER REFERENCES users,
