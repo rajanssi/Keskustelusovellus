@@ -4,7 +4,7 @@
 <h2>Keskustelualueet</h2>
 <div>
     {%for board in boards %}
-    <a href="/boards/{{ board[0] }}" class="Discussion-area"><h2>{{ board[1] }}</h2></a>
+    <a href="/board/{{ board[0] }}" class="Discussion-area"><h2>{{ board[1] }}</h2></a>
     <hr>
     {% endfor %}
 </div>

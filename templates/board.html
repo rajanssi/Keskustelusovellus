@@ -3,8 +3,9 @@
 {% block content %}
 <h2>{{ boardname }}</h2>
 <div>
+    <a href=/board/{{id}}/create-thread>Luo uusi keskustelu</a>
     {%for thread in threads %}
-    <a href="/boards/{{ thread[0] }}" class="Discussion-area"><h2>{{ thread[2] }}</h2></a>
+    <a href="/thread/{{ thread[0] }}" class="Discussion-area"><h2>{{ thread[2] }}</h2></a>
     <hr>
     {% endfor %}
 </div>

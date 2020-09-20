@@ -9,7 +9,7 @@
     <div>
         <h1>Mölinälauta</h1>
         {% if session.user_id %}
-        <i>{{ session.user_id }}!</i>
+        <i>Tervetuloa mölisemään!</i>
         <div class="no-class">
             <a href="\">Kotisivu</a>
             <a href="\logout">Kirjaudu ulos</a>
@@ -17,7 +17,7 @@
             <hr>
         </div>
         {% else %}
-        <i>Tervetuloa mölisemään!</i>
+        <i>Olkaa hyvä ja kirjautukaa!</i>
         <div class="no-class">
             <a href="\">Kotisivu</a>
             <a href="\login">Kirjaudu</a>

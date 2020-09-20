@@ -1,8 +1,8 @@
-Helsingin Yliopiston Tietokantasovellus-kurssilla toteutettava harjoitustyö.
+<h1>Mölinälauta-keskustelusovellus</h1>
 
-Tekijä: Anssi Rajala
+Sovellusta voi kokeilla osoitteessa <i>url tähän</i>
 
-Harjoitustyön aihe: <b>Keskustelusovellus</b>
+Sovellusta kokeillessa tulee varmasti havaittua, että ulkoasun rakennusta ei ole vielä aloitettu. Alla on lista sovelluksen suunnitellusta toiminnallisuudesta. Lihavoidut ovat tällä hetkellä käyttökelpoisessa kunnossa. 
 
 Sovelluksen ominaisuuksia:
 <ul> 

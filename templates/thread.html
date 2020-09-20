@@ -1,11 +1,19 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>{{ threadname }}</h2>
+<h2>{{ title }}</h2>
 <div>
-    {%for subforum in subforums %}
-    <a href="/subforum/{{ subforum[0] }}" class="Discussion-area"><h2>{{ subforum[1] }}</h2></a>
+    {%for comment in comments %}
+    <p>{{comment[2]}} - Vastaajan tunnus</p>
+    <i>{{comment[3]}}</i>
     <hr>
     {% endfor %}
+    <form action="/thread/{{id}}/reply" method="post">
+        Vastaa: <br>
+        <textarea name="content" rows="3" cols="40"></textarea>
+        <br>
+        <input type="submit" value="Lähetä">
+    </form>
+
 </div>
 {% endblock %}
