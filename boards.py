@@ -2,17 +2,17 @@ from db import db
 import users
 
 def get_boards():
-    sql = "SELECT id, name FROM boards"
+    sql = "SELECT id, boardname FROM boards"
     result = db.session.execute(sql)
     return result.fetchall()
 
 def get_boardname(id):
-    sql = "SELECT name FROM boards WHERE id=:id"
+    sql = "SELECT boardname FROM boards WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
 
 def get_threads(id):
-    sql = "SELECT * FROM threads t WHERE t.board_id =:id"
+    sql = "SELECT t.id, t.title FROM threads t WHERE t.board_id =:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
 
