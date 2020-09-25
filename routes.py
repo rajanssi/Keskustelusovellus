@@ -1,5 +1,4 @@
 from app import app
-from db import db
 import boards, users, threads, comments
 from flask import render_template, redirect, request, url_for
 
@@ -72,16 +71,18 @@ def reply(id):
 
 @app.route("/edit/<int:id>", methods=["get", "post"])
 def edit_comment(id):
+    comment = comments.get_comment(id)
+    thread_id = comment[2]
     if request.method == "GET":
         return render_template("edit-comment.html", id=id)
     if request.method == "POST":
         content = request.form["content"]
         if comments.edit(content, id):
-            return redirect("/")
+            return redirect(url_for('thread', id=thread_id))
         else:
             return render_template("error.html", message="Viestin muokkaus ei onnistunut")
 
 @app.route("/remove/<int:id>")
 def remove_comment(id):
-    comments.remove(id)
-    return redirect("/")
+    thread_id = comments.remove(id)
+    return redirect(url_for('thread', id=thread_id))

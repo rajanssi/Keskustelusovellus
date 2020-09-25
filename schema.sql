@@ -23,5 +23,7 @@ CREATE TABLE comments (
     user_id INTEGER REFERENCES users,
     thread_id INTEGER REFERENCES threads,
     content TEXT, 
-    created_at TIMESTAMP
+    created_at TIMESTAMP,
+    visible INTEGER DEFAULT 1
     );
+

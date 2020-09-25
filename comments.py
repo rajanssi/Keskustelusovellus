@@ -3,7 +3,7 @@ from db import db
 def get_comment(id):
     sql = "SELECT * FROM comments WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
-    return result.fetchone()[0]
+    return result.fetchone()
 
 def edit(content, id):
     sql = "UPDATE comments SET content=:content WHERE id=:id"
@@ -12,7 +12,8 @@ def edit(content, id):
     return True
 
 def remove(id):
-    sql = "DELETE FROM comments WHERE id=:id"
-    db.session.execute(sql, {"id":id})
+    sql = "UPDATE comments SET visible=0 WHERE id=:id RETURNING thread_id"
+    result = db.session.execute(sql, {"id":id})
+    thread_id = result.fetchone()[0]
     db.session.commit()
-    return True
+    return thread_id
