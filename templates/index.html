@@ -7,5 +7,8 @@
     <a href="/board/{{ board[0] }}" class="Discussion-area"><h2>{{ board[1] }}</h2></a>
     <hr>
     {% endfor %}
+    {% for secretboard in secretboards %}
+    <a href="">{{ secretboard[1] }}</a>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -5,8 +5,9 @@ from flask import render_template, redirect, request, url_for
 
 @app.route("/")
 def index():
-    list = boards.get_boards()
-    return render_template("index.html", boards=list)
+    boardlist = boards.get_boards()
+    secretboardlist = boards.get_secret_boards()
+    return render_template("index.html", boards=boardlist, secretboards=secretboardlist)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -18,7 +19,7 @@ def login():
         if users.login(username,password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            return render_template("login.html", errormessage="Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
@@ -32,10 +33,14 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        if len(username) < 1 :
+            return render_template("register.html", errormessage="Käyttäjätunnuksen täytyy olla vähintään 2 merkkiä pitkä.")
+        if len(password) < 5:
+            return render_template("register.html", errormessage="Salasanan täytyy olla vähintään 6 merkkiä pitkä.")
         if users.register(username,password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            return render_template("register.html", errormessage="Rekisteröinti ei onnistunut")
 
 @app.route("/board/<int:id>")
 def board(id):
@@ -56,18 +61,28 @@ def create_thread(id):
     if request.method == "POST":
         title = request.form["title"]
         content = request.form["content"]
+        if len(title) < 1:
+            return render_template("create-thread.html", id=id, errormessage="Otsikon täytyy olla vähintään 2 merkkiä pitkä.")
+        if len(title) > 50:
+            return render_template("create-thread.html", id=id, errormessage="Liian pitkä otsikko.")
+        if len(content) < 1:
+            return render_template("create-thread.html", id=id, errormessage="Viestin täytyy olla vähintään 2 merkkiä pitkä.")
+        if len(content) > 1000:
+            return render_template("create-thread.html", id=id, errormessage="Viesti on liian pitkä")
         if boards.create_thread(title, content, id):
             return redirect(url_for('board', id=id))
         else:
-            return render_template("error.html", message="Keskustelun luonti ei onnistunut")
+            return render_template("create-thread.html", errormessage="Keskustelun luonti ei onnistunut")
 
 @app.route("/thread/<int:id>/reply", methods=["post"])
 def reply(id):
     content = request.form["content"]
+    if len(content) < 1:
+        return render_template("error.html", errormessage="Viestin täytyy olla vähintään 2 merkkiä pitkä.")
     if threads.reply(content, id):
         return redirect(url_for('thread', id=id))
     else:
-        return render_template("error.html", message="Vastauksen lähetys ei onnistunut")
+        return render_template("error.html", errormessage="Vastauksen lähetys ei onnistunut")
 
 @app.route("/edit/<int:id>", methods=["get", "post"])
 def edit_comment(id):
@@ -77,10 +92,12 @@ def edit_comment(id):
         return render_template("edit-comment.html", id=id)
     if request.method == "POST":
         content = request.form["content"]
+        if len(content) < 1:
+            return render_template("edit-comment.html", errormessage="Viestin täytyy olla vähintään 2 merkkiä pitkä.")
         if comments.edit(content, id):
             return redirect(url_for('thread', id=thread_id))
         else:
-            return render_template("error.html", message="Viestin muokkaus ei onnistunut")
+            return render_template("edit-comment.html", errormessage="Viestin muokkaus ei onnistunut")
 
 @app.route("/remove/<int:id>")
 def remove_comment(id):
