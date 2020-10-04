@@ -1,14 +1,42 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Keskustelualueet</h2>
-<div>
-    {%for board in boards %}
-    <a href="/board/{{ board[0] }}" class="Discussion-area"><h2>{{ board[1] }}</h2></a>
-    <hr>
-    {% endfor %}
-    {% for secretboard in secretboards %}
-    <a href="">{{ secretboard[1] }}</a>
-    {% endfor %}
+<div class="nav-scroller bg-white shadow-sm">
+  <nav class="nav nav-underline" aria-label="breadcrumb">
+      <a class="nav-link" href="#">Kotisivu</a>
+  </nav>
 </div>
+</header>
+
+<main role="main" class="container mb-5">
+    <div class="mt-5">
+      <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">  
+        <h3 class="mb-0 text-white">Yleiset keskustelualueet</h6>
+      </div>
+      <div class="p-3 bg-white rounded shadow-sm">
+        {%for board in boards %}
+        <div class="pt-3">
+            <a href="board/{{board[0]}}">
+            <h4 class="pb-3 border-bottom border-gray">{{ board[1] }}</h3>
+            </a>
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
+        <h4 class="mb-0 text-white">Yksityiset keskustelualueet</h6>
+      </div>
+      <div class="p-3 bg-white rounded shadow-sm">
+        {%for secretboard in secretboards %}
+        <div class="pt-3">
+            <a href="board/{{secretboard[0]}}">
+            <h4 class="pb-3 border-bottom border-gray">{{ secretboard[1] }}</h3>
+            </a>
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+  </main>
 {% endblock %}

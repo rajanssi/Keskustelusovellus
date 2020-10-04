@@ -1,33 +1,104 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Mölinälauta - {% block title %}{% endblock %}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <style>
+        body {
+            overflow-x: hidden;
+            /* Prevent scroll on narrow devices */
+        }
+
+        #logo {
+            width: 200px;
+            height: 80px;
+        }
+
+        .logoBlock {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            padding-left: 75px;
+            background-color: #c41f2d;
+            color: white;
+        }
+
+        .nav-underline .nav-link {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            font-size: .875rem;
+            color: #6c757d;
+        }
+
+        .nav-underline .nav-link:hover {
+            color: #c41f2d;
+        }
+
+        .text-white-50 {
+            color: rgba(255, 255, 255, .5);
+        }
+    </style>
 </head>
 
-<body>
-    <div>
-        <h1>Mölinälauta</h1>
-        {% if session.user_id %}
-        <i>Tervetuloa mölisemään {{ session.username }}!</i>
-        <div class="no-class">
-            <a href="\">Kotisivu</a>
-            <a href="\logout">Kirjaudu ulos</a>
-            <!--<a href="\search">Hae viestejä</a>-->
-            <hr>
-        </div>
-        {% else %}
-        <i>Olkaa hyvä ja kirjautukaa!</i>
-        <div class="no-class">
-            <a href="\">Kotisivu</a>
-            <a href="\login">Kirjaudu</a>
-            <a href="\register">Rekisteröidy</a>
-            <!--<a href="\search">Hae viestejä</a>-->
-            <hr>
-        </div>
-        {% endif %}
-    </div>
-    {% block content %}{% endblock %}
-</body>
+<body class="bg-light">
+
+    <body class="bg-light">
+        <header>
+            <div class=logoBlock>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <h1><em>Mölinälauta</em></h1>
+                    </div>
+                    <div class="col-sm-">
+                        <img src="lauta.jpg" alt="..." class="rounded" id="logo">
+                    </div>
+                </div>
+            </div>
+            {% if session.user_id %}
+            <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark" aria-label="Site menu">
+                <div class="navbar-collapse" id="#">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Kotisivu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+                        </li>
+                    </ul>
+                    <form action="/search-results" method="GET" class="form-inline mt-2 mt-md-0">
+                        <input name="query" class="form-control mr-sm-2" type="text" placeholder="Hae viestejä" aria-label="Search">
+                        <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+            {% else %}
+            <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark" aria-label="Site menu">
+                <div class="navbar-collapse" id="#">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Kotisivu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Kirjaudu sisään</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Rekisteröidy</a>
+                        </li>
+                    </ul>
+                    <form action="/search-results" method="GET" class="form-inline mt-2 mt-md-0">
+                        <input name="query" class="form-control mr-sm-2" type="text" placeholder="Hakusana..."
+                            aria-label="Search">
+                        <button class="btn btn-danger my-2 my-sm-0" type="submit">Hae viestejä</button>
+                    </form>
+                </div>
+            </nav>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+    </body>
 
 </html>

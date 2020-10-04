@@ -4,29 +4,26 @@
 <div class="nav-scroller bg-white shadow-sm">
     <nav class="nav nav-underline" aria-label="breadcrumb">
       <a class="nav-link" href="/">Kotisivu</a>
-      <a class="nav-link active" href="#"><b>/{{boardname}}</b></a>
+      <a class="nav-link active" href="#"><b>/Haku</b></a>
     </nav>
   </div>
 </header>
 <main role="main" class="container mb-5">
     <div class="mt-5 mb-5">
         <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
-            <h3 class="mb-0 text-white">{{ boardname }}</h3>
+            <h3 class="mb-0 text-white">Löydetyt viestit hakusanalla {{query}}</h3>
         </div>
         <div class="list-group">
-            {%for thread in threads %}
-            <a href="/thread/{{thread[0]}}" class="list-group-item list-group-item-action">
+            {%for comment in commentList %}
+            <a href="#" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
-                    <h4 class="mb-1">{{thread[1]}}</h4>
-                    <small>3 days ago</small>
+                    <h4 class="mb-1">{{comment[1]}}</h4>
+                    <small>{{comment[2]}}</small>
                 </div>
-                <small>Luonut: Username99</small>
+                <small>Luonut: {{comment[3]}}</small>
             </a>
             {% endfor %}
         </div>
-    </div>
-    <div>
-        <a href="/board/{{id}}/create-thread" class="btn btn-danger btn-lg">Luo uusi keskustelu</a>
     </div>
 </main>
 {% endblock %}

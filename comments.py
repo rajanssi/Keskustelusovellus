@@ -17,3 +17,10 @@ def remove(id):
     thread_id = result.fetchone()[0]
     db.session.commit()
     return thread_id
+
+def search(query):
+    #sql = "SELECT * FROM comments WHERE content LIKE :query"
+    sql = "SELECT c.id, c.content, c.created_at, u.username FROM comments c " \
+          "LEFT JOIN Users U ON c.user_id = u.id WHERE c.content LIKE :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    return result.fetchall()

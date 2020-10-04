@@ -3,6 +3,8 @@
 {% block content %}
 <h2>{{ title }}</h2>
 <div>
+    <p>{{openingmessage}}</p>
+    <hr>
     {%for comment in comments %}
     <p>{{comment[1]}} - {{comment[4]}}</p>
     <i>{{comment[2]}}</i>
@@ -19,6 +21,5 @@
         <br>
         <input type="submit" value="Lähetä">
     </form>
-
 </div>
 {% endblock %}

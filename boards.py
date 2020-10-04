@@ -2,13 +2,13 @@ from db import db
 import users
 
 def get_boards():
-    sql = "SELECT id, boardname FROM boards"
+    sql = "SELECT id, boardname FROM boards WHERE secret=0"
     result = db.session.execute(sql)
     return result.fetchall()
 
 def get_secret_boards():
     user_id = users.user_id()
-    sql = "SELECT p.id, p.boardname FROM privateBoards p, privateBoardsUsers b WHERE p.id=b.board_id AND b.user_id=:user_id"
+    sql = "SELECT b.id, b.boardname FROM boards b, privateboardusers p WHERE secret=1 AND b.id=p.board_id AND p.user_id=:user_id"
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 

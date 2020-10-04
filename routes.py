@@ -51,10 +51,11 @@ def board(id):
 @app.route("/thread/<int:id>")
 def thread(id):
     title = threads.get_threadtitle(id)
+    openingmessage = threads.get_openingMessage(id)
     comments = threads.get_comments(id)
-    return render_template("thread.html", id=id, title=title, comments=comments)
+    return render_template("thread.html", id=id, openingmessage=openingmessage, title=title, comments=comments)
 
-@app.route("/board/<int:id>/create-thread", methods=["get", "post"])
+@app.route("/board/<int:id>/create-thread", methods=["GET", "POST"])
 def create_thread(id):
     if request.method== "GET":
         return render_template("create-thread.html", id=id)
@@ -74,7 +75,7 @@ def create_thread(id):
         else:
             return render_template("create-thread.html", errormessage="Keskustelun luonti ei onnistunut")
 
-@app.route("/thread/<int:id>/reply", methods=["post"])
+@app.route("/thread/<int:id>/reply", methods=["POST"])
 def reply(id):
     content = request.form["content"]
     if len(content) < 1:
@@ -84,10 +85,12 @@ def reply(id):
     else:
         return render_template("error.html", errormessage="Vastauksen lähetys ei onnistunut")
 
-@app.route("/edit/<int:id>", methods=["get", "post"])
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_comment(id):
     comment = comments.get_comment(id)
     thread_id = comment[2]
+    if users.user_id() != comment[1]:
+        return redirect("/")
     if request.method == "GET":
         return render_template("edit-comment.html", id=id)
     if request.method == "POST":
@@ -103,3 +106,9 @@ def edit_comment(id):
 def remove_comment(id):
     thread_id = comments.remove(id)
     return redirect(url_for('thread', id=thread_id))
+
+@app.route("/search-results")
+def searchresults():
+    query = request.args["query"]
+    commentList = comments.search(query)
+    return render_template("search-results.html", commentList=commentList, query=query)
