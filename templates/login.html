@@ -1,13 +1,43 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<form action="/login" method="post">
-Tunnus: <input type="text" name="username">
-<p>
-Salasana: <input type="password" name="password">
-<p>
-<input type="submit" value="Kirjaudu">
-</form>
-Jos sinulla ei ole käyttäjätunnusta, pääset rekisteröitymään <a href="/register">tästä</a>
-<p class="errormessage">{{ errormessage }}</p>
+<div class="nav-scroller bg-white shadow-sm">
+    <nav class="nav nav-underline" aria-label="breadcrumb">
+        <a class="nav-link" href="/">Kotisivu</a>
+        <a class="nav-link" href="#"><b>/Kirjaudu</b></a>
+    </nav>
+  </div>
+  </header>
+
+<main role="main" class="container-sm mb-5">
+    <form class="pt-3" action="/login" method="POST">
+        <div class="row p-2">
+            <div class="col-sm-4">
+                <input type="text" name="username" class="form-control" placeholder="Tunnus...">
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-sm-4">
+                <input type="password" name="password" class="form-control" placeholder="Salasana...">
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-danger">Kirjaudu sisään</button>
+            </div>
+        </div>
+        {%if errormessage %}
+        <div class="row p-2">
+            <div class="col-sm-6">
+                <p class="text-danger"><b>{{errormessage}}!</b></p>
+            </div>
+        </div>
+        {%endif%}
+        <div class="row p-2">
+            <div class="col-sm-6">
+                <p>Jos sinulla ei ole käyttäjätunnusta, pääset rekisteröitymään <a href="/register">tästä</a>.</p>
+            </div>
+        </div>
+    </form>
+</main>
 {% endblock %}

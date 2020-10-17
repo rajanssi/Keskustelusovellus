@@ -3,17 +3,18 @@
 {% block content %}
 <div class="nav-scroller bg-white shadow-sm">
     <nav class="nav nav-underline" aria-label="breadcrumb">
-      <a class="nav-link" href="/">Kotisivu</a>
-      <a class="nav-link active" href="#"><b>/Haku</b></a>
+        <a class="nav-link" href="/">Kotisivu</a>
+        <a class="nav-link active" href="#"><b>/Haku</b></a>
     </nav>
-  </div>
+</div>
 </header>
 <main role="main" class="container mb-5">
     <div class="mt-5 mb-5">
         <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
-            <h3 class="mb-0 text-white">Löydetyt viestit hakusanalla {{query}}</h3>
+            <h3 class="mb-0 text-white">Löydetyt viestit hakusanalla "{{query}}"</h3>
         </div>
         <div class="list-group">
+            {%if commentList%}
             {%for comment in commentList %}
             <a href="#" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
@@ -23,6 +24,13 @@
                 <small>Luonut: {{comment[3]}}</small>
             </a>
             {% endfor %}
+            {%else%}
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="m-3">Haulla "{{query}}"" ei löytynyt yhtään viestiä!</h5>    
+                </div>
+            </a>
+            {%endif%}
         </div>
     </div>
 </main>

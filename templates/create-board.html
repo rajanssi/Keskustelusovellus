@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<div class="nav-scroller bg-white shadow-sm">
+    <nav class="nav nav-underline" aria-label="breadcrumb">
+        <a class="nav-link" href="/">Kotisivu</a>
+        <a class="nav-link" href="#"><b>/Luo keskustelualue</b></a>
+    </nav>
+</div>
+</header>
+<main role="main" class="container-sm">
+    <form class="mt-5" action="/create-board" method="POST">
+        <fieldset   >
+          <div class="form-group">
+            <label for="boardname">Keskustelualueen nimi</label>
+            <input name="boardname" type="text" id="boardname" class="form-control" placeholder="Nimi tähän...">
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-switch">
+              <input name="secret" class="custom-control-input" type="checkbox" id="secret">
+              <label class="custom-control-label" for="secret">
+                Salainen
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger">Luo keskustelualue</button>
+        </fieldset>
+      </form>
+</main>
+{% endblock %}

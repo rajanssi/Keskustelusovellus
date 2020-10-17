@@ -1,13 +1,35 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<div>
-    <form action="/board/{{id}}/create-thread" method="post">
-    Otsikko: <input type="text" name="title">
-    <br>
-    Viesti: <textarea name="content" rows="3" cols="40"></textarea>
-    <input type="submit" value="Lähetä">
-    </form>
-    <p class="errormessage">{{ errormessage }}</p>
+<div class="nav-scroller bg-white shadow-sm">
+    <nav class="nav nav-underline" aria-label="breadcrumb">
+        <a class="nav-link" href="/">Kotisivu</a>
+        <a class="nav-link" href="/board/{{id}}">{{boardname}}</a>
+        <a class="nav-link" href="#"><b>/Luo keskustelu</b></a>
+    </nav>
 </div>
+</header>
+<main role="main" class="container-sm mb-5">
+    <div class="mt-5">
+        <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
+            <h3 class="mb-0 text-white">Luo keskustelu alueelle {{boardname}}</h3>
+        </div>
+        <div class="p-3 bg-white rounded shadow-sm">
+            <form class="p-3" action="/board/{{id}}/create-thread" method="POST">
+                <div class="form-group">
+                    <label for="title">Otsikko</label>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="Otsikko...">
+                </div>
+                <div class="form-group">
+                    <label for="content">Avausviesti</label>
+                    <textarea name="content" class="form-control" id="content" rows="3" placeholder="Viesti..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger">Lähetä</button>
+            </form>
+            <div class="p-3">
+                <p class="text-danger">{{errormessage}}</p>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}

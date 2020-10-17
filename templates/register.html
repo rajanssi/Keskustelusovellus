@@ -1,12 +1,43 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<form action="/register" method="POST">
-Tunnus: <input type="text" name="username">
-<p>
-Salasana: <input type="password" name="password">
-<p>
-<input type="submit" value="Luo tunnus">
-</form>
-<p class="errormessage">{{ errormessage }}</p>
+<div class="nav-scroller bg-white shadow-sm">
+    <nav class="nav nav-underline" aria-label="breadcrumb">
+        <a class="nav-link" href="/">Kotisivu</a>
+        <a class="nav-link" href="#"><b>/Rekisteröidy</b></a>
+    </nav>
+</div>
+</header>
+
+<main role="main" class="container-sm mb-5">
+    <form class="pt-3" action="/register" method="POST">
+        <div class="row p-2">
+            <div class="col-sm-4">
+                <input type="text" name="username" class="form-control" placeholder="Tunnus...">
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-sm-4">
+                <input type="password" name="password" class="form-control" placeholder="Salasana...">
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-danger">Luo tunnus</button>
+            </div>
+        </div>
+        {%if errormessage %}
+        <div class="row p-2">
+            <div class="col-sm-6">
+                <p class="text-danger"><b>{{errormessage}}</b></p>
+            </div>
+        </div>
+        {%endif%}
+        <div class="row p-2">
+            <div class="col-sm-6">
+                <p>Tunnuksen pituus vähintään 3 merkkiä. Salasanan on on oltava vähintään 6 merkkiä pitkä.</p>
+            </div>
+        </div>
+    </form>
+</main>
 {% endblock %}

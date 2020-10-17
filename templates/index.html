@@ -3,40 +3,51 @@
 {% block content %}
 <div class="nav-scroller bg-white shadow-sm">
   <nav class="nav nav-underline" aria-label="breadcrumb">
-      <a class="nav-link" href="#">Kotisivu</a>
+    <a class="nav-link" href="#"><b>Kotisivu</b></a>
   </nav>
 </div>
 </header>
 
 <main role="main" class="container mb-5">
-    <div class="mt-5">
-      <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">  
-        <h3 class="mb-0 text-white">Yleiset keskustelualueet</h6>
-      </div>
-      <div class="p-3 bg-white rounded shadow-sm">
-        {%for board in boards %}
-        <div class="pt-3">
-            <a href="board/{{board[0]}}">
-            <h4 class="pb-3 border-bottom border-gray">{{ board[1] }}</h3>
-            </a>
-        </div>
-        {%endfor%}
-      </div>
+  <div class="mt-5">
+    <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
+      <h3 class="mb-0 text-white">Yleiset keskustelualueet</h3>
     </div>
+    <div class="p-3 bg-white rounded shadow-sm">
+      {%for board in boards %}
+      <div class="pt-3">
+        <a href="board/{{board[0]}}">
+          <h4 class="pb-3 border-bottom border-gray">{{ board[1] }}</h4>
+        </a>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
 
-    <div class="mt-5">
-      <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
-        <h4 class="mb-0 text-white">Yksityiset keskustelualueet</h6>
-      </div>
-      <div class="p-3 bg-white rounded shadow-sm">
-        {%for secretboard in secretboards %}
-        <div class="pt-3">
-            <a href="board/{{secretboard[0]}}">
-            <h4 class="pb-3 border-bottom border-gray">{{ secretboard[1] }}</h3>
-            </a>
-        </div>
-        {%endfor%}
-      </div>
+  <div class="mt-5 mb-5">
+    <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
+      <h3 class="mb-0 text-white">Yksityiset keskustelualueet</h3>
     </div>
-  </main>
+    <div class="p-3 bg-white rounded shadow-sm">
+      {% if secretboards %}
+      {%for secretboard in secretboards %}
+      <div class="pt-3">
+        <a href="board/{{secretboard[0]}}">
+          <h4 class="pb-3 border-bottom border-gray">{{ secretboard[1] }}</h4>
+        </a>
+      </div>
+      {%endfor%}
+      {%else%}
+      <div class="pt-3">
+        <h5 class="pb-3 border-bottom border-gray">Sinulla ei ole oikeuksia salaisille keskustelualueille!</h5>
+      </div>
+      {%endif%}
+    </div>
+  </div>
+  {%if session.user_role==2%}
+  <div>
+    <a href="/create-board" class="btn btn-danger btn-lg">Luo uusi keskustelualue</a>
+  </div>
+  {%endif%}
+</main>
 {% endblock %}

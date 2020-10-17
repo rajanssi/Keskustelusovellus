@@ -1,6 +1,7 @@
 CREATE TABLE Boards (
     id SERIAL PRIMARY KEY,
-    boardname TEXT
+    boardname TEXT,
+    secret INTEGER DEFAULT 0
     );
 
 CREATE TABLE Users (
@@ -15,7 +16,6 @@ CREATE TABLE Threads(
     board_id INTEGER REFERENCES boards, 
     user_id INTEGER REFERENCES users,
     title TEXT NOT NULL,
-    opening_message TEXT NOT NULL,
     created_at TIMESTAMP
     );
     
@@ -27,13 +27,8 @@ CREATE TABLE Comments (
     created_at TIMESTAMP,
     visible INTEGER DEFAULT 1
     );
-
-CREATE TABLE PrivateBoards(
-    id SERIAL PRIMARY KEY,
-    boardname TEXT
-    );
-
-CREATE TABLE PrivateBoardUsers (
-    board_id INTEGER REFERENCES PrivateBoards,
+    
+CREATE TABLE SecretBoardUsers (
+    board_id INTEGER REFERENCES boards,
     user_id INTEGER REFERENCES users
     );

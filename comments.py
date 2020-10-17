@@ -1,7 +1,7 @@
 from db import db
 
 def get_comment(id):
-    sql = "SELECT * FROM comments WHERE id=:id"
+    sql = "SELECT user_id, content, thread_id, visible FROM comments WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
 
@@ -19,8 +19,7 @@ def remove(id):
     return thread_id
 
 def search(query):
-    #sql = "SELECT * FROM comments WHERE content LIKE :query"
     sql = "SELECT c.id, c.content, c.created_at, u.username FROM comments c " \
-          "LEFT JOIN Users U ON c.user_id = u.id WHERE c.content LIKE :query"
+          "LEFT JOIN Users U ON c.user_id = u.id WHERE c.visible=1 AND c.content LIKE :query"
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     return result.fetchall()

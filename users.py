@@ -2,6 +2,11 @@ from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
+def get_users():
+    sql = "SELECT id, username FROM users WHERE role = 1"
+    result = db.session.execute(sql)
+    return result.fetchall()
+
 def register(username, password):
     hash_value = generate_password_hash(password)
     try:
@@ -30,11 +35,24 @@ def login(username, password):
 def user_id():
     return session.get("user_id",0)
 
+def user_role():
+    return session.get("user_role",0)
+
 def get_username(id):
     sql = "SELECT username FROM users WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
 
 def logout():
-    print(session)
     del session["user_id"]
+    del session["username"]
+    del session["user_role"]
+
+def access_rights(id):
+    if user_id() == 0:
+        return False
+    if user_role() == 2:
+        return True
+    if user_id() == id:
+        return True
+    return False

@@ -1,11 +1,32 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<div>
-    <form action="/edit/{{id}}" method="post">
-    Viesti: <textarea name="content" rows="3" cols="40"></textarea>
-    <input type="submit" value="Lähetä">
-    </form>
-    <p class="errormessage">{{ errormessage }}</p>
+<div class="nav-scroller bg-white shadow-sm">
+    <nav class="nav nav-underline" aria-label="breadcrumb">
+        <a class="nav-link" href="/">Kotisivu</a>
+        <a class="nav-link" href="/board/{{board_id}}">{{boardname}}</a>
+        <a class="nav-link" href="/thread/{{thread_id}}">{{thread_title}}</a>
+        <a class="nav-link" href="#"><b>/Muokkaa</b></a>
+    </nav>
 </div>
+</header>
+<main role="main" class="container-sm mb-5">
+    <div class="mt-5">
+        <div class="d-flex align-items-center p-3 my-0 text-white-50 bg-dark shadow-sm">
+            <h4 class="mb-0 text-white">Muokkaa kommenttia</h4>
+        </div>
+        <div class="p-3 bg-white rounded shadow-sm">
+            <form action="/edit/{{id}}" method="post">
+                <div class="form-group">
+                    <label for="content">Viesti</label>
+                    <textarea name="content" class="form-control" id="content" rows="3">{{comment}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-danger">Lähetä</button>
+            </form>
+            <div class="pt-3">
+                <p class="text-danger">{{errormessage}}</p>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
