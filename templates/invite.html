@@ -31,6 +31,7 @@
                 <form action="/board/{{id}}/invite" method="POST">
                     <label for="users">Käyttäjät:</label>
                     <select class="custom-select" size="10" id="users" name="users">
+                        <option value="0" selected>Valitse käyttäjä:</option>
                         {%for user in userlist%}
                         <option value="{{user[0]}}">{{user[1]}}</option>
                         {%endfor%}

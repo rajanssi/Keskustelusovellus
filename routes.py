@@ -46,27 +46,27 @@ def register():
 def board(id):
     board = boards.get_board(id)
     secretboardusers = boards.get_secret_board_users(id)
-    threads = boards.get_threads(id)
+    threadlist = boards.get_threads(id)
     # Tarkastetaan, että käyttäjällä on pääsy salaisille keskustelualueille
     if board[1]==1 and boards.secret_board_access(id)==False:
-        return redirect("/")
-    return render_template("board.html", id=id, boardname=board[0], threads=threads, secret=board[1], secretboardusers=secretboardusers)  
+        return redirect(url_for('error'))
+    return render_template("board.html", id=id, boardname=board[0], threads=threadlist, secret=board[1], secretboardusers=secretboardusers)  
 
 @app.route("/thread/<int:id>")
 def thread(id):
     thread = threads.get_thread(id)
-    board = boards.get_board(thread[3])
+    board = boards.get_board(thread[2])
     comments = threads.get_comments(id)
     # Tarkastetaan, että käyttäjällä on pääsy salaisille keskustelualueille
-    if board[1]==1 and boards.secret_board_access(thread[3])==False:
-        return redirect("/")
-    return render_template("thread.html", id=id, title=thread[0], openingmessage=thread[1], boardname=board[0], board_id=thread[3], comments=comments)
+    if board[1]==1 and boards.secret_board_access(thread[2])==False:
+        return redirect(url_for('error'))
+    return render_template("thread.html", id=id, title=thread[0], boardname=board[0], board_id=thread[2], comments=comments)
 
 @app.route("/board/<int:id>/create-thread", methods=["GET", "POST"])
 def create_thread(id):
     boardname = boards.get_board(id)[0]
     if not users.access_rights(users.user_id()):
-        return redirect("/")
+        return redirect(url_for('error'))
     if request.method== "GET":
         return render_template("create-thread.html", id=id, boardname=boardname)
     if request.method == "POST":
@@ -80,15 +80,16 @@ def create_thread(id):
             return render_template("create-thread.html", id=id, boardname=boardname, errormessage="Viestin täytyy olla vähintään 2 merkkiä pitkä.")
         if len(content) > 1000:
             return render_template("create-thread.html", id=id, boardname=boardname, errormessage="Viesti on liian pitkä")
-        if boards.create_thread(title, content, id):
-            return redirect(url_for('board', id=id))
+        thread_id = boards.create_thread(title, content, id)
+        if thread_id:
+            return redirect(url_for('thread', id=thread_id))
         else:
             return render_template("create-thread.html", id=id, boardname=boardname, errormessage="Keskustelun luonti ei onnistunut")
 
 @app.route("/thread/<int:id>/reply", methods=["POST"])
 def reply(id):
     if not users.access_rights(users.user_id()):
-        return redirect("/")
+        return redirect(url_for('error'))
     content = request.form["content"]
     if len(content) < 3:
         return redirect(url_for('thread', id=id))
@@ -101,13 +102,13 @@ def reply(id):
 def edit_comment(id):
     comment = comments.get_comment(id)
     if comment == None or comment[3]==0:
-        return redirect("/")
+        return redirect(url_for('error'))
     thread_id = comment[2]
     thread = threads.get_thread(thread_id)
-    board_id = thread[3]
+    board_id = thread[2]
     board = boards.get_board(board_id)
     if not users.access_rights(comment[0]):
-        return redirect("/")
+        return redirect(url_for('error'))
     if request.method == "GET":
         return render_template("edit-comment.html", id=id, comment=comment[1], board_id=board_id, boardname=board[0], 
                                 thread_id=thread_id,  thread_title=thread[0])
@@ -129,7 +130,7 @@ def edit_comment(id):
 def remove_comment(id):
     user_id = comments.get_comment(id)[0]
     if not users.access_rights(user_id):
-        return redirect("/")
+        return redirect(url_for('error'))
     thread_id = comments.remove(id)
     return redirect(url_for('thread', id=thread_id))
 
@@ -142,7 +143,7 @@ def search():
 @app.route("/create-board", methods=["GET", "POST"])
 def create_board():
     if users.user_role() != 2:
-        return redirect("/")
+        return redirect(url_for('error'))
     if request.method == "GET":
         return render_template("create-board.html")
     if request.method == "POST":
@@ -162,11 +163,13 @@ def invite(id):
     board = boards.get_board(id)
     userlist = users.get_users()
     if users.user_role() != 2:
-        return redirect("/")
+        return redirect(url_for('error'))
     if request.method == "GET":
         return render_template("invite.html", id=id, boardname=board[0], board_users=board_users, userlist=userlist)
     if request.method == "POST":
         user_id = request.form["users"]
+        if int(user_id)==0:
+            return render_template("invite.html", id=id, boardname=board[0], board_users=board_users, userlist=userlist, errormessage="Valitse käyttäjä!")
         # Tarkastetaan, onko käyttäjä jo alueella
         user_invited = False
         for row in board_users:
@@ -185,3 +188,7 @@ def invite(id):
             if boards.invite_user(user_id, id):
                 board_users = boards.get_secret_board_users(id)
                 return render_template("invite.html", id=id, boardname=board[0], board_users=board_users, userlist=userlist)
+
+@app.route("/error")
+def error():
+    return render_template("error.html")

@@ -29,11 +29,14 @@ def create_thread(title, content, board_id):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO threads (board_id,user_id,title,opening_message,created_at) VALUES" \
-          "(:board_id,:user_id,:title,:content,NOW())"
-    db.session.execute(sql, {"board_id":board_id,"user_id":user_id,"title":title,"content":content})
+    sql = "INSERT INTO threads (board_id,user_id,title,created_at) VALUES" \
+          "(:board_id,:user_id,:title,date_trunc('second', localtimestamp)) RETURNING id"
+    result = db.session.execute(sql, {"board_id":board_id,"user_id":user_id,"title":title})
+    thread_id = result.fetchone()[0]
+    sql = "INSERT INTO comments (user_id, thread_id, content, created_at) VALUES (:user_id, :thread_id,:content, date_trunc('second', localtimestamp))"
+    db.session.execute(sql, {"user_id":user_id, "thread_id":thread_id,"content":content})
     db.session.commit()
-    return True
+    return thread_id
 
 def create_board(boardname, secret):
     sql = "INSERT INTO boards (boardname, secret) VALUES (:boardname, :secret)"
