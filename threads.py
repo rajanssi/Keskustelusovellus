@@ -17,13 +17,11 @@ def reply(content, thread_id):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO comments (user_id, content, created_at, thread_id) VALUES" \
+    try:
+        sql = "INSERT INTO comments (user_id, content, created_at, thread_id) VALUES" \
           "(:user_id, :content, date_trunc('second', localtimestamp), :thread_id)"
-    db.session.execute(sql, {"user_id":user_id, "content":content, "thread_id":thread_id})
-    db.session.commit()
-    return True
-
-def reply_count(id):
-    sql = "SELECT count(*) FROM comments WHERE thread_id=:id AND visible=1"
-    result = db.session.execute(sql, {"id":id})
-    return result.fetchone()[0]
+        db.session.execute(sql, {"user_id":user_id, "content":content, "thread_id":thread_id})
+        db.session.commit()
+        return True
+    except:
+        return False

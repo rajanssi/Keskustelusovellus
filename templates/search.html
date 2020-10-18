@@ -16,7 +16,7 @@
         <div class="list-group">
             {%if commentList%}
             {%for comment in commentList %}
-            <a href="#" class="list-group-item list-group-item-action">
+            <a href="/thread/{{comment[4]}}" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h4 class="mb-1">{{comment[1]}}</h4>
                     <small>{{comment[2]}}</small>
@@ -27,7 +27,7 @@
             {%else%}
             <a href="#" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="m-3">Haulla "{{query}}"" ei löytynyt yhtään viestiä!</h5>    
+                    <h5 class="m-3">Haulla "{{query}}" ei löytynyt yhtään viestiä!</h5>    
                 </div>
             </a>
             {%endif%}

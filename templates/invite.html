@@ -43,6 +43,7 @@
                         <div class="col-sm-3">
                             <button name="submit" value="remove" type="submit" class="btn btn-danger">Poista</button>
                         </div>
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                     </div>
                     {%if errormessage %}
                     <div class="row pt-3">

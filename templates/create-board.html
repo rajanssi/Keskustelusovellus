@@ -10,7 +10,7 @@
 </header>
 <main role="main" class="container-sm">
     <form class="mt-5" action="/create-board" method="POST">
-        <fieldset   >
+        <fieldset>
           <div class="form-group">
             <label for="boardname">Keskustelualueen nimi</label>
             <input name="boardname" type="text" id="boardname" class="form-control" placeholder="Nimi tähän...">
@@ -24,6 +24,7 @@
             </div>
           </div>
           <button type="submit" class="btn btn-danger">Luo keskustelualue</button>
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         </fieldset>
       </form>
 </main>
